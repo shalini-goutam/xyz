@@ -1,0 +1,67 @@
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+<context:component-scan base-package="com.gontuseries.hellocontroller"/>
+
+<mvc:annotation-driven />
+
+<mvc:resources mapping="/resources/**" location="/WEB-INF/" />
+
+<mvc:interceptors>
+
+<bean  class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"><property name="paramName" value="siteTheme"></property></bean>
+
+
+
+</mvc:interceptors>
+
+
+<!-- <bean id="HandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+
+<bean name="/welcome.html" class="com.gontuseries.hellocontroller.HelloController"/>
+  -->
+  
+  <context:component-scan base-package="com.gontuseries.hellocontroller" />
+  
+    <bean id="viewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="prefix">
+            <value>/WEB-INF/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    
+    <!-- Spring MVC considers studentmessages properties file in case of any form validation error to print error messages -->
+  	<bean id ="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+  		<property name="basename" value="/WEB-INF/studentmessages"/>
+  		<property name="cacheSeconds" value="1"/> <!-- This statement instruct spring MVC that at runtime please load all changes which anyone makes in  properties file after 1 sec. 
+  		We need not to restart the server then -->
+  	</bean>
+  	
+  	<bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+  		<property name="basenamePrefix" value="theme-"/>
+  	</bean>
+  	
+  	<bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver">
+  		<property name="defaultThemeName" value="green"/>
+  	</bean>
+  	
+  	
+ 
+</beans>
